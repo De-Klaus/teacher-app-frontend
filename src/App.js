@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-    const [message, setMessage] = useState("Загрузка...");
-
-    useEffect(() => {
-        fetch("http://localhost:8080/api/message") // URL должен быть из Spring Boot
-            .then(response => response.json())
-            .then(data => setMessage(data.message))
-            .catch(error => console.error("Ошибка загрузки:", error));
-    }, []);
-
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h1>{message}</h1>
-        </div>
+        <Router>
+            <Routes>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/" element={<h1>Главная страница</h1>} />
+            </Routes>
+        </Router>
     );
 }
 
