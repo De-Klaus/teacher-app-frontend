@@ -1,46 +1,41 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://teacherappthisdocker.onrender.com";
 
 const RegisterPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setError("");
-        setSuccess("");
-
-        if (password !== confirmPassword) {
-            setError("Пароли не совпадают");
-            return;
-        }
+        setError(null);
 
         try {
             const response = await fetch(`${API_URL}/auth/register`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                },
                 body: JSON.stringify({ email, password }),
             });
 
             if (!response.ok) {
-                throw new Error("Ошибка регистрации. Возможно, email уже используется.");
+                throw new Error("Ошибка регистрации");
             }
 
-            setSuccess("Регистрация успешна! Теперь войдите в систему.");
+            // ✅ После успешной регистрации перенаправляем на главную страницу
+            navigate("/");
         } catch (err) {
             setError(err.message);
         }
     };
 
     return (
-        <div style={{ maxWidth: "300px", margin: "auto", textAlign: "center" }}>
+        <div>
             <h2>Регистрация</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {success && <p style={{ color: "green" }}>{success}</p>}
             <form onSubmit={handleRegister}>
                 <input
                     type="email"
@@ -48,7 +43,6 @@ const RegisterPage = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
                 />
                 <input
                     type="password"
@@ -56,20 +50,10 @@ const RegisterPage = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
                 />
-                <input
-                    type="password"
-                    placeholder="Подтвердите пароль"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    required
-                    style={{ width: "100%", marginBottom: "10px", padding: "8px" }}
-                />
-                <button type="submit" style={{ width: "100%", padding: "10px", cursor: "pointer" }}>
-                    Зарегистрироваться
-                </button>
+                <button type="submit">Зарегистрироваться</button>
             </form>
+            {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
     );
 };
