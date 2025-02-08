@@ -1,31 +1,18 @@
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
     return (
         <Router>
+            <nav>
+                <Link to="/">Главная</Link>
+                <Link to="/login">Вход</Link>
+                <Link to="/register">Регистрация</Link>
+            </nav>
             <Routes>
-                <Route 
-                    path="/" 
-                    element={
-                        <div style={{ textAlign: "center", marginTop: "50px" }}>
-                            <h1>Главная страница</h1>
-                            <div style={{ marginTop: "20px" }}>
-                                <Link to="/login">
-                                    <button style={{ marginRight: "10px", padding: "10px 20px" }}>
-                                        Войти
-                                    </button>
-                                </Link>
-                                <Link to="/register">
-                                    <button style={{ padding: "10px 20px" }}>
-                                        Зарегистрироваться
-                                    </button>
-                                </Link>
-                            </div>
-                        </div>
-                    } 
-                />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
             </Routes>
