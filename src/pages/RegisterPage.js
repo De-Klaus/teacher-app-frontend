@@ -6,12 +6,18 @@ const API_URL = "https://teacherappthisdocker.onrender.com";
 const RegisterPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState(""); // Поле подтверждения пароля
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
         setError(null);
+
+        if (password !== confirmPassword) {
+            setError("Пароли не совпадают");
+            return;
+        }
 
         try {
             const response = await fetch(`${API_URL}/auth/register`, {
@@ -49,6 +55,13 @@ const RegisterPage = () => {
                     placeholder="Пароль"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Подтвердите пароль"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
                     required
                 />
                 <button type="submit">Зарегистрироваться</button>
