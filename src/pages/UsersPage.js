@@ -4,7 +4,7 @@ const UsersPage = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch("https://teacher-app-backend.com/api/users", {
+        fetch("https://teacherappthisdocker.onrender.com/users", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
