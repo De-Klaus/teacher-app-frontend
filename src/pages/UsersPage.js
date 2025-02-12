@@ -1,13 +1,19 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function UsersPage() {
+const UsersPage = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/users")
-            .then(response => response.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error("Ошибка загрузки пользователей:", error));
+        fetch("https://teacher-app-backend.com/api/users", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include" // Можно убрать, если не нужны cookies
+        })
+        .then(response => response.json())
+        .then(data => setUsers(data))
+        .catch(error => console.error("Ошибка загрузки пользователей:", error));
     }, []);
 
     return (
@@ -20,6 +26,6 @@ function UsersPage() {
             </ul>
         </div>
     );
-}
+};
 
 export default UsersPage;
