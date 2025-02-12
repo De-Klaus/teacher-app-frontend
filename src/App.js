@@ -10,11 +10,13 @@ function App() {
                 <Link to="/">Главная</Link>
                 <Link to="/login">Вход</Link>
                 <Link to="/register">Регистрация</Link>
+                <Link to="/users">Пользователи</Link>
             </nav>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/users" element={<UsersPage />} />
             </Routes>
         </Router>
     );
