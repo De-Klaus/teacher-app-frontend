@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const API_URL = "https://teacherappthisdocker.onrender.com";
 
 const RegisterPage = () => {
+    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState(""); // Поле подтверждения пароля
@@ -13,6 +14,11 @@ const RegisterPage = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
         setError(null);
+
+        if (!username.trim()) {
+            setError("Имя пользователя обязательно");
+            return;
+        }
 
         if (password !== confirmPassword) {
             setError("Пароли не совпадают");
@@ -25,7 +31,7 @@ const RegisterPage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ username, email, password }),
             });
 
             if (!response.ok) {
@@ -43,6 +49,13 @@ const RegisterPage = () => {
         <div>
             <h2>Регистрация</h2>
             <form onSubmit={handleRegister}>
+                <input
+                    type="text"
+                    placeholder="Имя пользователя"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                />
                 <input
                     type="email"
                     placeholder="Email"
