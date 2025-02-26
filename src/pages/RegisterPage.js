@@ -50,7 +50,7 @@ const RegisterPage = () => {
             <form onSubmit={handleRegister}>
                 <input
                     type="text"
-                    placeholder="Имя пользователя"
+                    placeholder="Логин"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     required
