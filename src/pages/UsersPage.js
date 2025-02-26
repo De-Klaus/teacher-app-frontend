@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { API_URL } from "../config";
 
 const UsersPage = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        fetch("https://teacherappthisdocker.onrender.com/users", {
+        fetch(`${API_URL}/users`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const API_URL = "https://teacherappthisdocker.onrender.com";
+import { API_URL } from "../config";
 
 const RegisterPage = () => {
     const [username, setUsername] = useState("");

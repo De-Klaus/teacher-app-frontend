@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_BASE_URL = "https://teacherappthisdocker.onrender.com";
+import { API_URL } from "../config";
 
 export const fetchData = async (endpoint, method = "GET", body = null) => {
     const token = localStorage.getItem("access_token"); // Получаем токен из localStorage (или другого хранилища)
@@ -19,7 +18,7 @@ export const fetchData = async (endpoint, method = "GET", body = null) => {
     }
 
     try {
-        const response = await fetch(`${API_BASE_URL}/${endpoint}`, options);
+        const response = await fetch(`${API_URL}/${endpoint}`, options);
         if (!response.ok) {
             throw new Error(`Ошибка: ${response.status}`);
         }

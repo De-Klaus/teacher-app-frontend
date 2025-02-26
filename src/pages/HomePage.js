@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const API_URL = "https://teacherappthisdocker.onrender.com";
+import { API_URL } from "../config";
 
 const HomePage = () => {
     const [users, setUsers] = useState([]);

@@ -1,4 +1,4 @@
-const API_URL = "https://teacherappthisdocker.onrender.com";
+import { API_URL } from "../config";
 
 export const login = async (email, password) => {
     const response = await fetch(`${API_URL}/auth/login`, {
