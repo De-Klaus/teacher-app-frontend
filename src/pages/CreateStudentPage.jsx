@@ -12,29 +12,37 @@ const CreateStudentPage = () => {
         timeZone: "",
         platform: "",
         schoolStartYear: "",
-        currentGrade: ""
+        currentGrade: "",
+        createdAt: new Date().toISOString().split("T")[0] // Устанавливаем текущую дату
     });
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setStudent({ ...student, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setStudent({ ...student, [name]: value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
-        
-        const token = localStorage.getItem("token"); // Получаем токен
+
+        const token = localStorage.getItem("token");
 
         try {
+            const requestData = {
+                ...student,
+                birthDate: student.birthDate ? new Date(student.birthDate).toISOString().split("T")[0] : null,
+                createdAt: student.createdAt // Уже установлена при инициализации
+            };
+
             const response = await fetch(`${API_URL}/students`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}` // Добавляем токен
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(student),
+                body: JSON.stringify(requestData),
             });
 
             if (!response.ok) {
@@ -56,13 +64,14 @@ const CreateStudentPage = () => {
                     {Object.keys(student).map((key) => (
                         <input
                             key={key}
-                            type={key === "birthDate" || key === "schoolStartYear" || key === "currentGrade" ? "number" : "text"}
+                            type={key === "birthDate" || key === "createdAt" ? "date" : key === "schoolStartYear" || key === "currentGrade" ? "number" : "text"}
                             name={key}
                             value={student[key]}
                             onChange={handleChange}
                             placeholder={key}
                             required
                             className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            disabled={key === "createdAt"} // Блокируем редактирование createdAt
                         />
                     ))}
                     <button 
