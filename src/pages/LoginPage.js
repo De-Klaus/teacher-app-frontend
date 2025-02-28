@@ -25,34 +25,42 @@ const LoginPage = () => {
             }
 
             const data = await response.json();
-            localStorage.setItem("token", data.token); // Сохранение JWT-токена
-
+            localStorage.setItem("token", data.token);
             console.log("Успешный вход:", data);
-            navigate("/dashboard"); // Перенаправление после входа
+            navigate("/dashboard");
         } catch (error) {
             setError(error.message);
         }
     };
 
     return (
-        <div>
-            <h1>Вход</h1>
-            <input 
-                type="text" 
-                value={username} 
-                onChange={(e) => setUsername(e.target.value)} 
-                placeholder="Логин" 
-                required 
-            />
-            <input 
-                type="password" 
-                value={password} 
-                onChange={(e) => setPassword(e.target.value)} 
-                placeholder="Пароль" 
-                required 
-            />
-            <button onClick={handleLogin}>Войти</button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
+                <h1 className="text-2xl font-bold mb-6 text-center">Вход</h1>
+                {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+                <input 
+                    type="text" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                    placeholder="Логин" 
+                    required 
+                    className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+                <input 
+                    type="password" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    placeholder="Пароль" 
+                    required 
+                    className="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+                <button 
+                    onClick={handleLogin} 
+                    className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+                >
+                    Войти
+                </button>
+            </div>
         </div>
     );
 };

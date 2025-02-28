@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../config";
 
 const HomePage = () => {
+    const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -46,6 +48,9 @@ const HomePage = () => {
                             <li key={user.id}>{user.email}</li>
                         ))}
                     </ul>
+                    <button onClick={() => navigate("/students")} className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                        Перейти к студентам
+                    </button>
                 </div>
             )}
         </div>
