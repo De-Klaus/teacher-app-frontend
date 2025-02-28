@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config";
 
 const CreateStudentPage = () => {
@@ -24,12 +24,15 @@ const CreateStudentPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        
+        const token = localStorage.getItem("token"); // Получаем токен
 
         try {
             const response = await fetch(`${API_URL}/students`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}` // Добавляем токен
                 },
                 body: JSON.stringify(student),
             });

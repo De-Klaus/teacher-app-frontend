@@ -7,10 +7,22 @@ const StudentsListPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`${API_URL}/students`)
-            .then(response => response.json())
-            .then(data => setStudents(data))
-            .catch(error => console.error("Ошибка загрузки студентов", error));
+        const token = localStorage.getItem("token");
+        fetch(`${API_URL}/students`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // Добавляем токен
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Ошибка: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(data => setStudents(data))
+        .catch(error => console.error("Ошибка загрузки студентов", error));
     }, []);
 
     return (
