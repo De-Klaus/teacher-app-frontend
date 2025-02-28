@@ -6,9 +6,12 @@ const LoginPage = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async () => {
+        if (isLoading) return;
+        setIsLoading(true);
         setError(null);
 
         try {
@@ -24,12 +27,24 @@ const LoginPage = () => {
                 throw new Error("Ошибка авторизации. Проверьте имя пользователя и пароль.");
             }
 
-            const data = await response.json();
+            let data;
+            try {
+                data = await response.json();
+            } catch {
+                throw new Error("Ошибка обработки ответа сервера");
+            }
+
+            if (!data.token) {
+                throw new Error("Токен отсутствует в ответе сервера");
+            }
+
             localStorage.setItem("token", data.token);
             console.log("Успешный вход:", data);
             navigate("/dashboard");
         } catch (error) {
             setError(error.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -56,9 +71,12 @@ const LoginPage = () => {
                 />
                 <button 
                     onClick={handleLogin} 
-                    className="w-full p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+                    disabled={isLoading}
+                    className={`w-full p-3 rounded-lg transition duration-200 ${
+                        isLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600 text-white"
+                    }`}
                 >
-                    Войти
+                    {isLoading ? "Вход..." : "Войти"}
                 </button>
             </div>
         </div>
