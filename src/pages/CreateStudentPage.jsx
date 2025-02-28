@@ -28,7 +28,7 @@ const CreateStudentPage = () => {
         const token = localStorage.getItem("token"); // Получаем токен
 
         try {
-            const response = await fetch(`${API_URL}/students/create`, {
+            const response = await fetch(`${API_URL}/students`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
